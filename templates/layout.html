@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>{% block title %}{% endblock %}</title>
+		<link rel="icon" type="image/png" href="{{ url_for('static', filename='_asset/_images/icons/favicon.ico') }}"/>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='_asset/_fonts/fontawesome-free/css/all.min.css') }}">
+		<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='_asset/_css/bootstrap.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='_asset/_css/mtech.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='_asset/_css/carousel.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='_asset/_css/calender.css') }}">
+	</head>
+	<body class="loggedin">
+		<nav class="navbar navbar-custom navbar-fixed-top">
+		  <div class="container-fluid">
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <img src="{{ url_for('static', filename='_asset/_images/man.png') }}" style="float: left;" width="50px">
+			  <a class="navbar-brand" href="{{ url_for('home') }}">Attendance System Face Recognition</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+			  <ul class="nav navbar-nav navbar-right">
+				<li><a href="{{ url_for('home') }}">Home</a></li>
+				<!-- <li><a href="dasboard.php?page=Attendance">Attendance</a></li> -->
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Service<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+					  <li><a href="{{ url_for('eform') }}">e-Form</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Report<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+					  <li><a href="#">Download Report</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ session['username'] }}<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+					  <li><a href="{{ url_for('profile') }}">Manage</a></li>
+					  <li role="separator" class="divider"></li>
+					  <li class="dropdown-header" data-toggle="modal" data-target="#logoutModal">Log Out</li>
+					</ul>
+				</li>
+			  </ul>
+			</div><!--/.nav-collapse -->
+		  </div>
+		</nav>
+
+		<div class="content container-fluid">
+            <!-- flash message -->
+
+			{% block content %}{% endblock %}
+		</div>
+		<footer class="footer bg-face">
+		  <div class="container">
+			<p class="text-muted">&copy; 2021 - Muhamad Maulana Rachman, Inc. &middot;</p>
+		  </div>
+		</footer>
+
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+						<a class="btn btn-primary" href="{{ url_for('logout') }}">Logout</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script type="text/javascript" src="{{ url_for('static', filename='_asset/_js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='_asset/_js/holder.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+<script>
+  // menu on active change color
+   $('li.active').removeClass('active');
+   $('a[href="' + location.pathname + '"]').closest('li').addClass('active');
+</script>
+{% block script %}
+    <script>
+        var socket = io();
+        socket.on('prediction', function(message) {
+
+            var frame = new Uint8Array(message.frame);
+            var src = URL.createObjectURL( new Blob([frame], { type: 'image/png' }));
+            {#var content = $("#history").html()#}
+            {#$("#history").html('<div class="col-md-3 p-1 small">'+#}
+            {#                    '<img src="' + src + '" class="rounded" style="width:100px;"></img>'+#}
+            {#                    '</div>' + content);#}
+            $("#date").val(message.date);
+            $("#masuk").val(message.time);
+            $("#keluar").val(message.time);
+            $("#akurasi").val(message.akurasi);
+        });
+    </script>
+{% endblock %}
+</html>

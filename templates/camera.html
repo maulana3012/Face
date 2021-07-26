@@ -1,0 +1,126 @@
+{% extends 'layout.html' %}
+
+{% block title %}Eform{% endblock %}
+
+{% block content %}
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8">
+            <ul class="nav nav-tabs">
+              <li role="presentation" class="active"><a href="#">Form Absen</a></li>
+            </ul>
+            <div class="panel panel-primary">
+                <div class="panel-body">
+
+                    <form method="post"  action="{{ url_for('absen') }}" autocomplete="off">
+
+                        <div class="row">
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                  <label for="NIK">NIK</label>
+                                  <input type="text" name="nik" class="form-control" id="NIK" aria-describedby="NIK" value="{{ account['NIK'] }}" readonly>
+                              </div>
+                          </div>
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                  <label for="NamaLengkap">Nama Lengkap</label>
+                                  <input type="text" class="form-control" id="NamaLengkap" aria-describedby="NamaLengkap" value="{{ account['FULLNAME'] }}" readonly>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="row">
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                  <label for="Spesialisasi">Spesialisasi</label>
+                                  <input type="text" class="form-control" id="Spesialisasi" aria-describedby="Spesialisasi" value="{{ account['DEVISI'] }}" readonly>
+                              </div>
+                          </div>
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                  <label for="Project">Project / Lokasi Kerja</label>
+                                  <input type="text" class="form-control" id="Project" aria-describedby="Project" readonly>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                  <label for="Devisi">Devisi</label>
+                                  <input type="text" class="form-control" id="Devisi" aria-describedby="Devisi" value="{{ account['JABATAN'] }}" readonly>
+                              </div>
+                          </div>
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                  <label for="TglBergabung">Tanggal Bergabung</label>
+                                  <input type="text" class="form-control" id="TglBergabung" aria-describedby="TglBergabung" value="{{ account['TANGGAL_BAERGABUNG'] }}" readonly>
+                              </div>
+                          </div>
+                      </div>
+                      <hr class="sidebar-divider">
+                      <div class="row">
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                  <label for="Izin">Jenis Izin</label>
+                                  <select class="form-control" id="Izin" name="izin">
+                                      <option value="null">-Pilih-</option>
+                                      <option value="Tidak hadir">Tidak Hadir</option>
+                                      <option value="Datang Terlambat">Datang Terlambat</option>
+                                      <option value="Pulang Cepat">Pulang Cepat</option>
+                                      <option value="Tugas Kantor">Tugas Kantor</option>
+                                      <option value="Kerja Dari Rumah">Kerja Dari Rumah</option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="col-lg-6">
+                              <label for="Deskripsi">Deskripsi</label>
+                              <textarea type="date" class="form-control" id="Deskripsi" name="Deskripsi"></textarea>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-lg-6">
+                              <div class="form-group">
+                                  <label for="tglpengajuan">Tanggal Pengajuan</label>
+                                  <input type="text" name="tgl_pengajuan" class="form-control" id="date" aria-describedby="tglpengajuan" value="{{ date }}" readonly>
+                              </div>
+                          </div>
+                          <div class="col-lg-6">
+                              <div class="row">
+                                  <div class="col-lg-6">
+                                      <label class="bg-success">Jam Masuk</label>
+                                      <input type="text" class="form-control bg-success" name="masuk" id="masuk" aria-describedby="masuk" value="" readonly>
+                                  </div>
+                                   <div class="col-lg-6">
+                                       <label class="bg-danger">Jam Pulang</label>
+                                       <input type="text" class="form-control bg-success" name="keluar" id="keluar" aria-describedby="keluar" value="" readonly>
+                                   </div>
+                              </div>
+                              <small>Note : Silakan Lakukan Absen Kembali saat jam pulang</small>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-lg-6">
+                              <label class="bg-success">Akurasi</label>
+                              <input type="text" class="form-control bg-success" name="akurasi" id="akurasi" aria-describedby="masuk" value="" readonly>
+                          </div>
+                      </div>
+                        <hr class="sidebar-divider">
+                        <div class="col-lg-12">
+                            <button class="btn btn-sm btn-success" style="float: right;">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-body" style="background-color: #003D53">
+                    <img src="/video_feed" style="width: 100%; height: auto;">
+                </div>
+{#                <div id = "history" class="well" style="height: 360px; overflow-y: scroll;"></div>#}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
